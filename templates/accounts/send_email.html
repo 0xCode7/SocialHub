@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: #fff;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff !important;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to SocialHub, {{ user.username }}!</h1>
+    <p>Thanks for registering. Please verify your account by clicking the button below:</p>
+    <a href="{{ activation_link }}" class="button">Verify Account</a>
+    <p>If you did not create this account, you can ignore this email.</p>
+    <p>Cheers,<br>SocialHub Team</p>
+</div>
+</body>
+</html>

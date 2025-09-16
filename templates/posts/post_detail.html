@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Post by {{ post.author.username }}{% endblock %}
+
+{% block content %}
+    <div class="post-container" style="max-width: 800px; margin: 2rem auto;">
+        <div class="card post-card" data-post-id="{{ post.id }}">
+            <!-- Post Header -->
+            <div class="post-header">
+                <img src="{{ post.author.profile.avatar.url }}"
+                     class="post-avatar" alt="avatar">
+                <div>
+                    <p class="post-author">{{ post.author.username }}</p>
+                    <p class="post-timestamp">{{ post.created_at|timesince }} ago</p>
+                </div>
+            </div>
+
+            <!-- Post Content -->
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post Image" class="post-image">
+                {% endif %}
+            </div>
+
+            <!-- Post Actions -->
+            <div class="post-actions">
+                <button type="button"
+                        class="action-button like-button {% if post.user_liked %}liked{% endif %}">
+                    ❤️ {{ post.likes.count }} Likes
+                </button>
+                <button type="button" class="action-button comment-button">
+                    💬 {{ post.comments.count }} Comments
+                </button>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section hidden">
+                <div class="comments-list">
+                    {% for comment in post.comments.all %}
+                        <div class="comment" data-comment-id="{{ comment.id }}">
+                            <p>
+                                <span class="comment-author">{{ comment.author.username }}:</span>
+                                {{ comment.content }}
+                            </p>
+
+                            {% if request.user == comment.author or request.user == post.author %}
+                                <button class="delete-comment-btn">🗑️</button>
+                            {% endif %}
+                        </div>
+
+                    {% empty %}
+                        <p>No comments yet.</p>
+                    {% endfor %}
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <form method="POST" class="comment-form">
+                        {% csrf_token %}
+                        <div class="form-group comment-input-group">
+                            <input type="text" name="content" placeholder="Write a comment..." required>
+                            <button type="submit" class="button mt-3">Send</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
